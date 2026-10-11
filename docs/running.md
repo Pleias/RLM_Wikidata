@@ -7,7 +7,7 @@ OpenAI-compatible endpoint. Run the commands from the repository root, in bash.
 
 | Item | Requirement |
 | :---- | :---- |
-| Python | 3.13 |
+| Python | 3.13 or later |
 | Package manager | [uv](https://docs.astral.sh/uv/) (recommended) or pip |
 | Graph | A Wikidata graph in the format described in [graph-format.md](graph-format.md) |
 | Model | Any OpenAI-compatible chat completions endpoint: a local server or a hosted API |
@@ -23,7 +23,7 @@ uv sync
 Without uv, install the dependencies listed in `pyproject.toml`:
 
 ```bash
-python3.13 -m venv .venv
+python3 -m venv .venv        # Python 3.13 or later
 .venv/bin/pip install numpy openai pyarrow tantivy tenacity
 ```
 
@@ -68,8 +68,18 @@ vllm serve unsloth/Qwen3.8-27B-FP8 \
 | `--max-num-seqs` | How many requests the server runs at once. Match it to the number of workers you use |
 
 Qwen3.8 needs vLLM 0.17.0 or later with transformers 5.8.0 or later. Model
-loading and compilation take several minutes. Before a batch, check that the
-server can generate, not only that it answers `/health`:
+loading and compilation take several minutes.
+
+If the server stops during start-up with a FlashInfer error such as `Failed to
+load dynamic shared library`, turn off its FP8 block-scale kernel, which is
+compiled on the machine and must match its CUDA runtime, and start again:
+
+```bash
+export VLLM_BLOCKSCALE_FP8_GEMM_FLASHINFER=0
+```
+
+Before a batch, check that the server can generate, not only that it answers
+`/health`:
 
 ```bash
 curl -s http://127.0.0.1:8000/v1/chat/completions \

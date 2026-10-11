@@ -66,7 +66,7 @@ For the API models, cost is input tokens × input price + output tokens × outpu
 
 ## Running the harness
 
-The harness needs Python 3.13, a Wikidata graph in the format described in [docs/graph-format.md](docs/graph-format.md), and any OpenAI-compatible endpoint: a local server such as vLLM, or a hosted API. [docs/running.md](docs/running.md) covers installation, serving a model, the settings, and how to run and score the evaluation.
+The harness needs Python 3.13 or later, a Wikidata graph in the format described in [docs/graph-format.md](docs/graph-format.md), and any OpenAI-compatible endpoint: a local server such as vLLM, or a hosted API. [docs/running.md](docs/running.md) covers installation, serving a model, the settings, and how to run and score the evaluation.
 
 ```bash
 uv sync
